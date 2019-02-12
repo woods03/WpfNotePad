@@ -6,7 +6,44 @@
         xmlns:local="clr-namespace:WpfNotePad"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Menu Grid.Row="0">
+            <MenuItem Header="Файл">
+                <MenuItem Header="Создать">
+
+                </MenuItem>
+                <MenuItem Header="Открыть...">
+
+                </MenuItem>
+                <MenuItem Header="Сохранить">
+
+                </MenuItem>
+                <MenuItem Header="Сохранить как...">
+
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="Выход">
+
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Правка">
+                
+            </MenuItem>
+            <MenuItem Header="Формат">
+
+            </MenuItem>
+            <MenuItem Header="Вид">
+
+            </MenuItem>
+            <MenuItem Header="Справка">
+
+            </MenuItem>
+        </Menu>
     </Grid>
 </Window>
