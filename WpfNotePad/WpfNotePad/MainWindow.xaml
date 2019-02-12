@@ -11,6 +11,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
             <RowDefinition/>
+            <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
 
         <Menu Grid.Row="0">
@@ -28,22 +29,60 @@
 
                 </MenuItem>
                 <Separator/>
-                <MenuItem Header="Выход">
+                <MenuItem Header="Выход" Click="Btn_exit_Click">
 
                 </MenuItem>
             </MenuItem>
+            
             <MenuItem Header="Правка">
-                
+                <MenuItem Header="Отменить">
+                    
+                </MenuItem>
+                <Separator/>
+                <MenuItem x:Name="btn_cut" Click="btn_cut_click" Header="Вырезать"></MenuItem>
+                <MenuItem x:Name="btn_copy" Click="btn_copy_click" Header="Копировать"></MenuItem>
+                <MenuItem x:Name="btn_paste" Click="btn_paste_click" Header="Вставить"></MenuItem>
+                <MenuItem x:Name="btn_del" Click="btn_del_click" Header="Удалить"></MenuItem>
+                <Separator/>
+                <MenuItem Header="Выделить все">
+
+                </MenuItem>
             </MenuItem>
+            
             <MenuItem Header="Формат">
+                <MenuItem Header="Шрифт">
 
+                </MenuItem>
             </MenuItem>
+
             <MenuItem Header="Вид">
+                <MenuItem Header="Статус">
 
-            </MenuItem>
-            <MenuItem Header="Справка">
-
+                </MenuItem>
             </MenuItem>
         </Menu>
+
+        <TextBox x:Name="textBox" Grid.Row="1"
+                 MaxLength="65535" 
+                 VerticalScrollBarVisibility="Auto" 
+                 HorizontalScrollBarVisibility="Auto" AcceptsReturn="True">
+            <TextBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem x:Name="btn_cut1" Click="btn_cut_click" Header="Вырезать"></MenuItem>
+                    <MenuItem x:Name="btn_copy1" Click="btn_copy_click" Header="Копировать"></MenuItem>
+                    <MenuItem x:Name="btn_paste1" Click="btn_paste_click" Header="Вставить"></MenuItem>
+                    <MenuItem x:Name="btn_del1" Click="btn_del_click" Header="Удалить"></MenuItem>
+                </ContextMenu>
+            </TextBox.ContextMenu>
+        </TextBox>
+
+        <DockPanel x:Name="dPanel_status" LastChildFill="False" Grid.Row="2">
+            <StatusBar x:Name="StatusBar" DockPanel.Dock="Right" Width="200">
+                <StatusBar.Items>
+                    <TextBlock x:Name="status_text" />
+                </StatusBar.Items>
+            </StatusBar>
+        </DockPanel>
+        
     </Grid>
 </Window>
