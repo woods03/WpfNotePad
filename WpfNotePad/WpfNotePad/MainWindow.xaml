@@ -7,11 +7,11 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     
-    <Grid>
+    <Grid x:Name="main_Grid">
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
-            <RowDefinition/>
-            <RowDefinition Height="20"/>
+            <RowDefinition x:Name = "main_Grid_TextBox"/>
+            <RowDefinition Height="20" x:Name="main_Grid_StatusRow"/>
         </Grid.RowDefinitions>
 
         <Menu Grid.Row="0">
@@ -56,16 +56,18 @@
             </MenuItem>
 
             <MenuItem Header="Вид">
-                <MenuItem Header="Статус">
+                <MenuItem x:Name="btn_status" Click="btn_status_click" Header="Статус">
 
                 </MenuItem>
             </MenuItem>
+
         </Menu>
 
         <TextBox x:Name="textBox" Grid.Row="1"
                  MaxLength="65535" 
                  VerticalScrollBarVisibility="Auto" 
-                 HorizontalScrollBarVisibility="Auto" AcceptsReturn="True">
+                 HorizontalScrollBarVisibility="Auto" AcceptsReturn="True"
+                 TextWrapping="Wrap">
             <TextBox.ContextMenu>
                 <ContextMenu>
                     <MenuItem x:Name="btn_cut1" Click="btn_cut_click" Header="Вырезать"></MenuItem>
@@ -76,13 +78,9 @@
             </TextBox.ContextMenu>
         </TextBox>
 
-        <DockPanel x:Name="dPanel_status" LastChildFill="False" Grid.Row="2">
-            <StatusBar x:Name="StatusBar" DockPanel.Dock="Right" Width="200">
-                <StatusBar.Items>
-                    <TextBlock x:Name="status_text" />
-                </StatusBar.Items>
-            </StatusBar>
-        </DockPanel>
+        <StatusBar Grid.Row="2"
+                   HorizontalAlignment="Right" Width="200">
+        </StatusBar>
         
     </Grid>
 </Window>

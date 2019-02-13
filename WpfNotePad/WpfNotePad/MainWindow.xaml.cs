@@ -22,6 +22,7 @@ namespace WpfNotePad
     public partial class MainWindow : Window
     {
         private bool textEditing = false;
+        private bool statusBarBool = false;
 
         public MainWindow()
         {
@@ -31,8 +32,6 @@ namespace WpfNotePad
             dispatcherTimer.Tick += new EventHandler(timer_Tick);
             dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 100);
             dispatcherTimer.Start();
-
-            status_text.Text = "100%";
         }
         
         private void Btn_exit_Click(object sender, RoutedEventArgs e)
@@ -60,6 +59,12 @@ namespace WpfNotePad
         {
             textBox.SelectedText = "";
         }
+        
+        private void btn_status_click(object sender, RoutedEventArgs e)
+        {
+            statusBarBool = !statusBarBool;
+            statusBarEnab(statusBarBool);
+        }
 
         private void timer_Tick(object sender, EventArgs e)
         {
@@ -75,6 +80,19 @@ namespace WpfNotePad
             textEdit(textEditing);
         }
 
+        private void statusBarEnab(bool sbb)
+        {
+            if (sbb)
+            {
+                main_Grid_TextBox.Height = new GridLength(1, GridUnitType.Star);
+                main_Grid_StatusRow.Height = GridLength.Auto;
+            }
+            else
+            {
+                main_Grid_StatusRow.Height = new GridLength(20, GridUnitType.Pixel);
+            }
+        }
+
         private void textEdit(bool te)
         {
             btn_copy.IsEnabled = te;
@@ -85,6 +103,5 @@ namespace WpfNotePad
             btn_cut1.IsEnabled = te;
             btn_del1.IsEnabled = te;
         }
-
     }
 }
