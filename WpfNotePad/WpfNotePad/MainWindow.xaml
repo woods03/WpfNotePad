@@ -19,7 +19,7 @@
                 <MenuItem Header="Создать">
 
                 </MenuItem>
-                <MenuItem Header="Открыть...">
+                <MenuItem Header="Открыть..." Click="btn_OpenFile_click">
 
                 </MenuItem>
                 <MenuItem Header="Сохранить">
@@ -67,7 +67,7 @@
                  MaxLength="65535" 
                  VerticalScrollBarVisibility="Auto" 
                  HorizontalScrollBarVisibility="Auto" AcceptsReturn="True"
-                 TextWrapping="Wrap">
+                 TextWrapping="Wrap" SelectionChanged="textBox_SelectChanged" TextChanged="textBox_textChanged">
             <TextBox.ContextMenu>
                 <ContextMenu>
                     <MenuItem x:Name="btn_cut1" Click="btn_cut_click" Header="Вырезать"></MenuItem>

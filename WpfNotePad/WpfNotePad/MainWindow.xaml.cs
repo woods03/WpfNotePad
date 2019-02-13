@@ -13,6 +13,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.IO;
+using System.Windows;
+using Microsoft.Win32;
 
 namespace WpfNotePad
 {
@@ -21,17 +24,16 @@ namespace WpfNotePad
     /// </summary>
     public partial class MainWindow : Window
     {
+        private string title = "Untitled";
         private bool textEditing = false;
         private bool statusBarBool = false;
-
+        private bool isSaved = true;
+        
         public MainWindow()
         {
             InitializeComponent();
 
-            System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
-            dispatcherTimer.Tick += new EventHandler(timer_Tick);
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 100);
-            dispatcherTimer.Start();
+            this.Title = title + " - WPFNP";
         }
         
         private void Btn_exit_Click(object sender, RoutedEventArgs e)
@@ -66,9 +68,14 @@ namespace WpfNotePad
             statusBarEnab(statusBarBool);
         }
 
-        private void timer_Tick(object sender, EventArgs e)
+        private void textBox_textChanged(object sender, TextChangedEventArgs e)
         {
-            if(textBox.SelectedText == "")
+            isSaved = false;
+        }
+
+        private void textBox_SelectChanged(object sender, RoutedEventArgs e)
+        {
+            if (textBox.SelectedText == "")
             {
                 textEditing = false;
             }
@@ -78,6 +85,58 @@ namespace WpfNotePad
             }
 
             textEdit(textEditing);
+        }
+
+        private void btn_OpenFile_click(object sender, RoutedEventArgs e)
+        {
+            if (isSaved == false)
+            {
+                if (MessageBox.Show("Save file?", "", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                {
+                    //no
+                    OpenFileDialog();
+                }
+                else
+                {
+                    //yes
+                    SaveFileDialog();
+                    OpenFileDialog();
+                }
+            }
+            else
+            {
+                OpenFileDialog();
+            }
+
+        }
+
+        private void OpenFileDialog()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog()
+            {
+                Filter = "Text file file (*.txt)|*.txt|All files (*.*)|*.*"
+            };
+            
+            if (openFileDialog.ShowDialog() == true)
+            {
+                textBox.Text = File.ReadAllText(openFileDialog.FileName);
+                title = openFileDialog.FileNames.First().Split('\\').Last().Split('.').First();
+                this.Title = title + " - WPFNP";
+            }
+        }
+
+        private void SaveFileDialog()
+        {
+            SaveFileDialog dialog = new SaveFileDialog()
+            {
+                Filter = "Text Files(*.txt)|*.txt",
+                FileName = title
+            };
+
+            if (dialog.ShowDialog() == true)
+            {
+                File.WriteAllText(dialog.FileName, textBox.Text);
+            }
         }
 
         private void statusBarEnab(bool sbb)
