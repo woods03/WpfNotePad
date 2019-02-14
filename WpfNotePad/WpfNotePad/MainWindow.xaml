@@ -16,16 +16,16 @@
 
         <Menu Grid.Row="0">
             <MenuItem Header="Файл">
-                <MenuItem Header="Создать">
+                <MenuItem Header="Создать" Click="btn_Create_click">
 
                 </MenuItem>
                 <MenuItem Header="Открыть..." Click="btn_OpenFile_click">
 
                 </MenuItem>
-                <MenuItem Header="Сохранить">
+                <MenuItem Header="Сохранить" Click="btn_SaveFile_Click">
 
                 </MenuItem>
-                <MenuItem Header="Сохранить как...">
+                <MenuItem Header="Сохранить как..." Click="btn_SaveAs_Click">
 
                 </MenuItem>
                 <Separator/>
@@ -44,7 +44,7 @@
                 <MenuItem x:Name="btn_paste" Click="btn_paste_click" Header="Вставить"></MenuItem>
                 <MenuItem x:Name="btn_del" Click="btn_del_click" Header="Удалить"></MenuItem>
                 <Separator/>
-                <MenuItem Header="Выделить все">
+                <MenuItem Header="Выделить все" Click="btn_SelectAll_click">
 
                 </MenuItem>
             </MenuItem>

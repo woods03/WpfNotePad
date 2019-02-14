@@ -24,21 +24,47 @@ namespace WpfNotePad
     /// </summary>
     public partial class MainWindow : Window
     {
-        private string title = "Untitled";
-        private bool textEditing = false;
-        private bool statusBarBool = false;
-        private bool isSaved = true;
+        private string title;
+        private string path;
+        private bool textEditing;
+        private bool statusBarBool;
+        private bool isSaved;
         
         public MainWindow()
         {
             InitializeComponent();
+            Update();
+        }
+
+        private void Update()
+        {
+            title = "Untitled";
+            path = "";
+            textEditing = false;
+            statusBarBool = false;
+            isSaved = true;
+            textBox.Text = "";
 
             this.Title = title + " - WPFNP";
         }
         
         private void Btn_exit_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            if (isSaved == false)
+            {
+                if (MessageBox.Show("Save file?", "", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                {
+                    //no
+                    this.Close();
+                }
+                else
+                {
+                    //yes
+                    SaveFile();
+                    this.Close();
+                }
+            }
+            else { this.Close(); }
         }
 
         private void btn_paste_click(object sender, RoutedEventArgs e)
@@ -62,6 +88,12 @@ namespace WpfNotePad
             textBox.SelectedText = "";
         }
         
+        private void btn_SelectAll_click(object sender, RoutedEventArgs e)
+        {
+            textBox.SelectionStart = 0;
+            textBox.SelectionLength = textBox.Text.Length;
+        }
+
         private void btn_status_click(object sender, RoutedEventArgs e)
         {
             statusBarBool = !statusBarBool;
@@ -99,15 +131,40 @@ namespace WpfNotePad
                 else
                 {
                     //yes
-                    SaveFileDialog();
+                    SaveFile();
                     OpenFileDialog();
                 }
             }
-            else
-            {
-                OpenFileDialog();
-            }
+            else { OpenFileDialog(); }
+        }
 
+        private void btn_SaveFile_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFile();
+        }
+        
+        private void btn_SaveAs_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog();
+        }
+
+        private void btn_Create_click(object sender, RoutedEventArgs e)
+        {
+            if (isSaved == false)
+            {
+                if (MessageBox.Show("Save file?", "", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                {
+                    //no
+                    Update();
+                }
+                else
+                {
+                    //yes
+                    SaveFile();
+                    Update();
+                }
+            }
+            else { Update(); }
         }
 
         private void OpenFileDialog()
@@ -120,7 +177,9 @@ namespace WpfNotePad
             if (openFileDialog.ShowDialog() == true)
             {
                 textBox.Text = File.ReadAllText(openFileDialog.FileName);
+                isSaved = true;
                 title = openFileDialog.FileNames.First().Split('\\').Last().Split('.').First();
+                path = openFileDialog.FileNames.First();
                 this.Title = title + " - WPFNP";
             }
         }
@@ -129,13 +188,30 @@ namespace WpfNotePad
         {
             SaveFileDialog dialog = new SaveFileDialog()
             {
-                Filter = "Text Files(*.txt)|*.txt",
+                Filter = "Text Files(*.txt)|*.txt|HTML Files(*.html)|*.html|Rich Text Files(*.rtf)|*.rtf",
                 FileName = title
             };
 
             if (dialog.ShowDialog() == true)
             {
                 File.WriteAllText(dialog.FileName, textBox.Text);
+                isSaved = true;
+                title = dialog.FileNames.First().Split('\\').Last().Split('.').First();
+                path = dialog.FileNames.First();
+                this.Title = title + " - WPFNP";
+            }
+        }
+
+        private void SaveFile()
+        {
+            if (File.Exists(path))
+            {
+                File.WriteAllText(path, textBox.Text);
+                isSaved = true;
+            }
+            else
+            {
+                SaveFileDialog();
             }
         }
 
@@ -162,5 +238,6 @@ namespace WpfNotePad
             btn_cut1.IsEnabled = te;
             btn_del1.IsEnabled = te;
         }
+
     }
 }
