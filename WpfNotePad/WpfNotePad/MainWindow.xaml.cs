@@ -29,7 +29,8 @@ namespace WpfNotePad
         private bool textEditing;
         private bool statusBarBool;
         private bool isSaved;
-        
+        private bool isWrap;
+ 
         public MainWindow()
         {
             InitializeComponent();
@@ -43,6 +44,7 @@ namespace WpfNotePad
             textEditing = false;
             statusBarBool = false;
             isSaved = true;
+            isWrap = true;
             textBox.Text = "";
 
             this.Title = title + " - WPFNP";
@@ -171,6 +173,20 @@ namespace WpfNotePad
             else { Update(); }
         }
 
+        private void btn_WordWrap_Click(object sender, RoutedEventArgs e)
+        {
+            isWrap = !isWrap;
+
+            if(isWrap)
+            {
+                textBox.TextWrapping = TextWrapping.Wrap;
+            }
+            else
+            {
+                textBox.TextWrapping = TextWrapping.NoWrap;
+            }
+        }
+
         private void OpenFileDialog()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog()
@@ -242,6 +258,5 @@ namespace WpfNotePad
             btn_cut1.IsEnabled = te;
             btn_del1.IsEnabled = te;
         }
-
     }
 }

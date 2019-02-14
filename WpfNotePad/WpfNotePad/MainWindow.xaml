@@ -51,7 +51,7 @@
             </MenuItem>
             
             <MenuItem Header="Формат">
-                <MenuItem Header="Шрифт">
+                <MenuItem Header="Wrap" Click="btn_WordWrap_Click">
 
                 </MenuItem>
             </MenuItem>
@@ -90,13 +90,16 @@
         </ProgressBar>-->
 
 
-        <StackPanel Grid.Row="2" Orientation="Horizontal">
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Background="Transparent">
             <StatusBar>
                 <StatusBarItem>
-                    <ProgressBar x:Name="progressBar_CharInfo" Background="White" Foreground="#0000FF"
+                    <ProgressBar x:Name="progressBar_CharInfo" Background="Transparent" BorderThickness="0" Foreground="#0000FF"
                         Maximum="100"
                         HorizontalAlignment="Right" Width="200" Height="14">
                     </ProgressBar>
+                </StatusBarItem>
+                <StatusBarItem>
+                    <TextBlock x:Name="textBlock_LineandStroke"/>
                 </StatusBarItem>
             </StatusBar>
         </StackPanel>
