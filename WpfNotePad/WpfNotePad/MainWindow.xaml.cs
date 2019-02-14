@@ -49,7 +49,56 @@ namespace WpfNotePad
 
             this.Title = title + " - WPFNP";
         }
-        
+
+        #region File
+        private void btn_Create_click(object sender, RoutedEventArgs e)
+        {
+            if (isSaved == false)
+            {
+                if (MessageBox.Show("Save file?", "", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                {
+                    //no
+                    Update();
+                }
+                else
+                {
+                    //yes
+                    SaveFile();
+                    Update();
+                }
+            }
+            else { Update(); }
+        }
+
+        private void btn_OpenFile_click(object sender, RoutedEventArgs e)
+        {
+            if (isSaved == false)
+            {
+                if (MessageBox.Show("Save file?", "", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                {
+                    //no
+                    OpenFileDialog();
+                }
+                else
+                {
+                    //yes
+                    SaveFile();
+                    OpenFileDialog();
+                }
+            }
+            else { OpenFileDialog(); }
+        }
+
+        private void btn_SaveFile_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFile();
+        }
+
+        private void btn_SaveAs_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog();
+        }
+
         private void Btn_exit_Click(object sender, RoutedEventArgs e)
         {
             if (isSaved == false)
@@ -68,7 +117,9 @@ namespace WpfNotePad
             }
             else { this.Close(); }
         }
+        #endregion
 
+        #region editing
         private void btn_paste_click(object sender, RoutedEventArgs e)
         {
             textBox.SelectedText = Clipboard.GetText();
@@ -95,6 +146,7 @@ namespace WpfNotePad
             textBox.SelectionStart = 0;
             textBox.SelectionLength = textBox.Text.Length;
         }
+        #endregion
 
         private void btn_status_click(object sender, RoutedEventArgs e)
         {
@@ -123,56 +175,21 @@ namespace WpfNotePad
             }
 
             textEdit(textEditing);
-        }
 
-        private void btn_OpenFile_click(object sender, RoutedEventArgs e)
-        {
-            if (isSaved == false)
+            if (isWrap == true)
             {
-                if (MessageBox.Show("Save file?", "", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
-                {
-                    //no
-                    OpenFileDialog();
-                }
-                else
-                {
-                    //yes
-                    SaveFile();
-                    OpenFileDialog();
-                }
-            }
-            else { OpenFileDialog(); }
-        }
+                int curr_line = this.textBox.GetLineIndexFromCharacterIndex(this.textBox.SelectionStart) + 1;
+                int firstChar = this.textBox.GetCharacterIndexFromLineIndex(curr_line - 1);
+                int curr_column = this.textBox.CaretIndex - firstChar;
 
-        private void btn_SaveFile_Click(object sender, RoutedEventArgs e)
-        {
-            SaveFile();
+                textBlock_LineandStroke.Text = $"Line: {curr_line}, Stroke: {curr_column}";
+            }
+            else
+            {
+                textBlock_LineandStroke.Text = "Wrap!";
+            }
         }
         
-        private void btn_SaveAs_Click(object sender, RoutedEventArgs e)
-        {
-            SaveFileDialog();
-        }
-
-        private void btn_Create_click(object sender, RoutedEventArgs e)
-        {
-            if (isSaved == false)
-            {
-                if (MessageBox.Show("Save file?", "", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
-                {
-                    //no
-                    Update();
-                }
-                else
-                {
-                    //yes
-                    SaveFile();
-                    Update();
-                }
-            }
-            else { Update(); }
-        }
-
         private void btn_WordWrap_Click(object sender, RoutedEventArgs e)
         {
             isWrap = !isWrap;
@@ -185,6 +202,17 @@ namespace WpfNotePad
             {
                 textBox.TextWrapping = TextWrapping.NoWrap;
             }
+        }
+        
+        private void form_closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (isSaved == false)
+            {
+                if (MessageBox.Show("Save file?", "", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    SaveFile();
+                }
+            }   
         }
 
         private void OpenFileDialog()
@@ -257,6 +285,11 @@ namespace WpfNotePad
             btn_copy1.IsEnabled = te;
             btn_cut1.IsEnabled = te;
             btn_del1.IsEnabled = te;
+        }
+
+        private void btn_undo_click(object sender, RoutedEventArgs e)
+        {
+            textBox.Undo();
         }
     }
 }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfNotePad"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" Closing="form_closing">
     
     <Grid x:Name="main_Grid">
         <Grid.RowDefinitions>
@@ -36,18 +36,14 @@
             </MenuItem>
             
             <MenuItem Header="Правка">
-                <MenuItem Header="Отменить">
-                    
-                </MenuItem>
+                <MenuItem Header="Отменить" Click="btn_undo_click"></MenuItem>
                 <Separator/>
                 <MenuItem x:Name="btn_cut" Click="btn_cut_click" Header="Вырезать"></MenuItem>
                 <MenuItem x:Name="btn_copy" Click="btn_copy_click" Header="Копировать"></MenuItem>
                 <MenuItem x:Name="btn_paste" Click="btn_paste_click" Header="Вставить"></MenuItem>
                 <MenuItem x:Name="btn_del" Click="btn_del_click" Header="Удалить"></MenuItem>
                 <Separator/>
-                <MenuItem Header="Выделить все" Click="btn_SelectAll_click">
-
-                </MenuItem>
+                <MenuItem Header="Выделить всё" Click="btn_SelectAll_click"></MenuItem>
             </MenuItem>
             
             <MenuItem Header="Формат">
@@ -70,8 +66,10 @@
         <TextBox x:Name="textBox" Grid.Row="1"
                  MaxLength="1000" 
                  VerticalScrollBarVisibility="Auto" 
-                 HorizontalScrollBarVisibility="Auto" AcceptsReturn="True"
-                 TextWrapping="Wrap" SelectionChanged="textBox_SelectChanged" TextChanged="textBox_textChanged">
+                 HorizontalScrollBarVisibility="Auto" AcceptsReturn="True" AcceptsTab="True"
+                 TextWrapping="Wrap" SelectionChanged="textBox_SelectChanged" TextChanged="textBox_textChanged"
+                  SpellCheck.IsEnabled="True" Language="ru-ru"
+                 UndoLimit="200">
             <TextBox.ContextMenu>
                 <ContextMenu>
                     <MenuItem x:Name="btn_cut1" Click="btn_cut_click" Header="Вырезать"></MenuItem>
@@ -82,21 +80,16 @@
             </TextBox.ContextMenu>
         </TextBox>
 
-        
-        
-        <!--<ProgressBar x:Name="progressBar_CharInfo" Grid.Row="2"
-            Maximum="1000"
-            HorizontalAlignment="Right" Width="200">
-        </ProgressBar>-->
-
-
-        <StackPanel Grid.Row="2" Orientation="Horizontal" Background="Transparent">
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Background="LightGray">
             <StatusBar>
                 <StatusBarItem>
-                    <ProgressBar x:Name="progressBar_CharInfo" Background="Transparent" BorderThickness="0" Foreground="#0000FF"
+                    <ProgressBar x:Name="progressBar_CharInfo"
                         Maximum="100"
                         HorizontalAlignment="Right" Width="200" Height="14">
                     </ProgressBar>
+                </StatusBarItem>
+                <StatusBarItem>
+                    <Separator/>
                 </StatusBarItem>
                 <StatusBarItem>
                     <TextBlock x:Name="textBlock_LineandStroke"/>
