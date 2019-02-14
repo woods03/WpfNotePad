@@ -103,6 +103,10 @@ namespace WpfNotePad
         private void textBox_textChanged(object sender, TextChangedEventArgs e)
         {
             isSaved = false;
+
+            label_FontInfo.Text = textBox.FontFamily.ToString() + ", " + textBox.FontSize + "    " ;
+
+            progressBar_CharInfo.Value = textBox.Text.Length / 10 ;
         }
 
         private void textBox_SelectChanged(object sender, RoutedEventArgs e)
@@ -171,7 +175,7 @@ namespace WpfNotePad
         {
             OpenFileDialog openFileDialog = new OpenFileDialog()
             {
-                Filter = "Text file file (*.txt)|*.txt|All files (*.*)|*.*"
+                Filter = "Text Files(*.txt)|*.txt|HTML Files(*.html)|*.html|Rich Text Files(*.rtf)|*.rtf"
             };
             
             if (openFileDialog.ShowDialog() == true)
@@ -219,12 +223,12 @@ namespace WpfNotePad
         {
             if (sbb)
             {
-                main_Grid_TextBox.Height = new GridLength(1, GridUnitType.Star);
-                main_Grid_StatusRow.Height = GridLength.Auto;
+                main_Grid.RowDefinitions[2].Height = new GridLength(0);
+                main_Grid.RowDefinitions[1].Height = new GridLength(20 , GridUnitType.Star);
             }
             else
             {
-                main_Grid_StatusRow.Height = new GridLength(20, GridUnitType.Pixel);
+                main_Grid.RowDefinitions[2].Height = new GridLength(20, GridUnitType.Pixel);
             }
         }
 

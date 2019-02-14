@@ -14,7 +14,8 @@
             <RowDefinition Height="20" x:Name="main_Grid_StatusRow"/>
         </Grid.RowDefinitions>
 
-        <Menu Grid.Row="0">
+        <DockPanel Grid.Row="0" LastChildFill="False">
+        <Menu DockPanel.Dock="Left" Background="Transparent">
             <MenuItem Header="Файл">
                 <MenuItem Header="Создать" Click="btn_Create_click">
 
@@ -63,8 +64,11 @@
 
         </Menu>
 
+        <TextBlock x:Name="label_FontInfo" DockPanel.Dock="Right"/>
+        </DockPanel>
+        
         <TextBox x:Name="textBox" Grid.Row="1"
-                 MaxLength="65535" 
+                 MaxLength="1000" 
                  VerticalScrollBarVisibility="Auto" 
                  HorizontalScrollBarVisibility="Auto" AcceptsReturn="True"
                  TextWrapping="Wrap" SelectionChanged="textBox_SelectChanged" TextChanged="textBox_textChanged">
@@ -78,9 +82,24 @@
             </TextBox.ContextMenu>
         </TextBox>
 
-        <StatusBar Grid.Row="2"
-                   HorizontalAlignment="Right" Width="200">
-        </StatusBar>
         
+        
+        <!--<ProgressBar x:Name="progressBar_CharInfo" Grid.Row="2"
+            Maximum="1000"
+            HorizontalAlignment="Right" Width="200">
+        </ProgressBar>-->
+
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <StatusBar>
+                <StatusBarItem>
+                    <ProgressBar x:Name="progressBar_CharInfo" Background="White" Foreground="#0000FF"
+                        Maximum="100"
+                        HorizontalAlignment="Right" Width="200" Height="14">
+                    </ProgressBar>
+                </StatusBarItem>
+            </StatusBar>
+        </StackPanel>
+
     </Grid>
 </Window>
